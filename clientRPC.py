@@ -33,22 +33,24 @@ def rotate_image(image_path, angle):
     rotated_image = image.rotate(angle)
     return rotated_image
 
-def process_image():
+def process_image(operation):
     image_path = image_file_path.get()
     if not image_path:
         result_label.config(text="Selecione uma imagem primeiro")
         return
 
-    # Exemplo de uso das funções de processamento de imagem
-    grayscale_image = convert_to_grayscale(image_path)
-    resized_image = resize_image(image_path, 300, 200)
-    rotated_image = rotate_image(image_path, 45)
-
-    grayscale_image.save('grayscale_image.jpg', format="JPEG")
-    resized_image.save('resized_image.jpg', format="JPEG")
-    rotated_image.save('rotated_image.jpg', format="JPEG")
+    if operation == "convert":
+        grayscale_image = convert_to_grayscale(image_path)
+        grayscale_image.save('grayscale_image.jpg', format="JPEG")
+    if operation == "resize":
+        resized_image = resize_image(image_path, 300, 200)
+        resized_image.save('resized_image.jpg', format="JPEG")
+    if operation == "rotate":
+        rotated_image = rotate_image(image_path, 45)
+        rotated_image.save('rotated_image.jpg', format="JPEG")
 
     result_label.config(text="Imagens processadas e salvas com sucesso!")
+
 
 root = tk.Tk()
 root.title("Cliente de Processamento de Imagem")
@@ -60,8 +62,15 @@ result_label.pack()
 file_button = tk.Button(root, text="Escolher Imagem", command=browse_image)
 file_button.pack()
 
-process_button = tk.Button(root, text="Processar Imagem", command=process_image)
+process_button = tk.Button(root, text="Converter imagem para cinza", command=lambda: process_image("convert"))
 process_button.pack()
+
+process_button = tk.Button(root, text="Redimensionar imagem", command=lambda: process_image("resize"))
+process_button.pack()
+
+process_button = tk.Button(root, text="Rodar imagem", command=lambda: process_image("rotate"))
+process_button.pack()
+
 
 # Adicione um widget de label para exibir a imagem selecionada
 image_label = tk.Label(root)
