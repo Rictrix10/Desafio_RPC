@@ -1,0 +1,14 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ./Desafio_RPC-main
+    ports: 
+    - "8003:8000"
+    command: python server.py
+
+  client:
+    build:
+      context: ./Desafio_RPC-main
+    depends_on: 
+    - server
